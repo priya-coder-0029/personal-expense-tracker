@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>PERSONAL EXPENSE TRACKER</title>
+
+    <link rel="stylesheet"
+        href="style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <h4>WELCOME TO YOUR PAISA MANAGER!</h4>
+
+    <hr>
+
+
+    <div class="wrapper">
+
+        <div class="container">
+
+
+            <!-- =====================================
+                 BUDGET + EXPENSE INPUT
+            ====================================== -->
+
+            <div class="sub-container">
+
+
+                <!-- =================================
+                     BUDGET
+                ================================== -->
+
+                <div class="total-amount-container"
+                    id="budget">
+
+                    <h3>BUDGET</h3>
+
+                    <p class="hide error"
+                        id="budget-error">
+                    </p>
+
+
+                    <label for="total-amount">
+                        Total Budget
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="total-amount"
+                        placeholder="Enter total amount">
+
+
+                    <button
+                        class="submit"
+                        id="total-amount-button">
+
+                        Set Budget
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- =================================
+                     EXPENSE
+                ================================== -->
+
+                <div class="user-amount-container"
+                    id="expenses">
+
+                    <h3>EXPENSES</h3>
+
+
+                    <p class="hide error"
+                        id="product-title-error">
+                    </p>
+
+
+                    <label for="product-title">
+                        Product
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="product-title"
+                        placeholder="Enter Product">
+
+
+                    <label for="user-amount">
+                        Amount
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="user-amount"
+                        placeholder="Enter Amount">
+
+
+                    <label for="payment-method">
+                        Payment Method
+                    </label>
+
+
+                    <select id="payment-method">
+
+                        <option value="Cash">
+                            Cash
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="Card">
+                            Card
+                        </option>
+
+                        <option value="Bank Transfer">
+                            Bank Transfer
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="submit"
+                        id="add-amount">
+
+                        Add Expense
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 SUMMARY
+            ====================================== -->
+
+            <div class="summary-section">
+
+                <h3>SUMMARY</h3>
+
+
+                <div class="output-container">
+
+
+                    <!-- BUDGET -->
+
+                    <div class="summary-box">
+
+                        <p>BUDGET</p>
+
+                        <span id="amount">
+                            0
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- EXPENSES -->
+
+                    <div class="summary-box">
+
+                        <p>EXPENSES</p>
+
+                        <span id="expense-value">
+                            0
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- BALANCE -->
+
+                    <div class="summary-box">
+
+                        <p>BALANCE</p>
+
+                        <span id="balance-amount">
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 EXPENSE LIST + BUDGET HISTORY
+            ====================================== -->
+
+            <div class="two-column-section">
+
+
+                <!-- =================================
+                     EXPENSE LIST
+                ================================== -->
+
+                <div class="history-box">
+
+                    <h3>EXPENSE LIST</h3>
+
+
+                    <div
+                        class="list-container"
+                        id="list">
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     BUDGET HISTORY
+                ================================== -->
+
+                <div class="history-box">
+
+                    <h3>BUDGET HISTORY</h3>
+
+
+                    <div id="budget-history">
+
+                        <p>
+                            No budget history yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 EXPENSE HISTORY
+            ====================================== -->
+
+            <div class="expense-history-box">
+
+                <h3>EXPENSE HISTORY</h3>
+
+
+                <div
+                    class="list-container"
+                    id="previous-expense-list">
+
+                    <p>
+                        No previous expenses yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
