@@ -807,7 +807,7 @@ if (result != SQLITE_OK)
     cout << "Port: " << port << endl;
 
     cout << "========================================" << endl;
-    server.set_mount_point("/", "./frontend");
+    server.set_mount_point("/", ".frontend");
     server.listen("0.0.0.0", port);
     // =================================================
     // CLOSE DATABASE
