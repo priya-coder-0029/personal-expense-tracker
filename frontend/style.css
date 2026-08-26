@@ -1,4 +1,4 @@
-```css
+css
 * {
     padding: 0;
     margin: 0;
@@ -494,22 +494,59 @@ h4 {
     margin-top: 0;
     margin-bottom: 20px;
 }
-
 /* =========================================
-   MOBILE
+   MOBILE RESPONSIVE FIX
 ========================================= */
 
-@media (max-width: 700px) {
+@media screen and (max-width: 768px) {
 
-    .two-column-section {
-        grid-template-columns: 1fr;
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
     }
 
+    /* Sidebar */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    /* Main wrapper */
+    .wrapper {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    /* Main containers */
+    .container,
+    .sub-container {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Expense + Budget */
+    .two-column-section {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        gap: 15px;
+    }
+
+    /* Summary */
     .output-container {
+        width: 100%;
+        max-width: 100%;
         grid-template-columns: 1fr;
     }
 
     .summary-box {
+        width: 100%;
         border-right: none;
         border-bottom: 1px solid #ddd;
     }
@@ -518,20 +555,69 @@ h4 {
         border-bottom: none;
     }
 
+    /* History boxes */
+    .history-box,
+    .expense-history-box,
+    .budget-history-container,
+    .list {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Expense rows */
     .sublist-content {
-        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+        gap: 8px;
+        padding: 10px 8px;
+    }
+
+    .sublist-content .product {
+        min-width: 0;
+        flex: 1;
     }
 
     .sublist-content .amount {
         width: 70px;
+        flex-shrink: 0;
+        font-size: 14px;
     }
 
     .sublist-content .edit,
     .sublist-content .delete {
         width: 30px;
+        height: 30px;
+        margin-left: 0;
+        flex-shrink: 0;
     }
 
+    /* Budget history */
     .budget-history-item {
-        gap: 10px;
+        width: 100%;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .budget-history-item span:first-child {
+        min-width: 0;
+    }
+
+    .budget-history-item span:last-child {
+        font-size: 12px;
+    }
+
+    /* Inputs */
+    .container input,
+    #payment-method {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Heading */
+    h4 {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+        font-size: 20px;
     }
 }
