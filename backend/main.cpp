@@ -1,9 +1,8 @@
+#include "httplib.h"
+#include "sqlite3.h"
 #include <iostream>
 #include <string>
-
-#include "sqlite3.h"
-#include "httplib.h"
-
+#include <cstdlib>
 using namespace std;
 
 
@@ -49,23 +48,28 @@ int main()
     // =================================================
     // DATABASE CONNECTION
     // =================================================
+sqlite3* DB = nullptr;
 
-    sqlite3* DB = nullptr;
+const char* dbPath = std::getenv("DATABASE_PATH");
 
-    int result = sqlite3_open(
-        "expenses.db",
-        &DB
-    );
+if (dbPath == nullptr)
+{
+    dbPath = "expenses.db";
+}
 
-    if (result != SQLITE_OK)
+int result = sqlite3_open(
+    dbPath,
+    &DB
+);
+
+if (result != SQLITE_OK)
+{
+    cout << "Database connection failed!" << endl;
+
+    if (DB != nullptr)
     {
-        cout << "Database connection failed!" << endl;
-
-        if (DB != nullptr)
-        {
-            sqlite3_close(DB);
-        }
-
+        sqlite3_close(DB);
+    }
         return 1;
     }
 
@@ -796,16 +800,15 @@ int main()
     cout << "========================================" << endl;
     cout << "Database connected successfully." << endl;
     cout << "Server running at:" << endl;
-    cout << "http://localhost:8080" << endl;
+
+    const char* port_env = std::getenv("PORT");
+    int port = port_env ? std::stoi(port_env) : 8080;
+
+    cout << "Port: " << port << endl;
+
     cout << "========================================" << endl;
-
-
-    server.listen(
-        "0.0.0.0",
-        8080
-    );
-
-
+    server.set_mount_point("/", "./frontend");
+    server.listen("0.0.0.0", port);
     // =================================================
     // CLOSE DATABASE
     // =================================================
