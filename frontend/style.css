@@ -621,3 +621,19 @@ h4 {
         font-size: 20px;
     }
 }
+/* =========================================
+   NEGATIVE BALANCE MESSAGE
+========================================= */
+
+#balance-message {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #d00000;
+    line-height: 1.4;
+    text-align: center;
+}
+
+#balance-message.hide {
+    display: none;
+}

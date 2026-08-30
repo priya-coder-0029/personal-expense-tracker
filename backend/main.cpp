@@ -789,31 +789,46 @@ if (result != SQLITE_OK)
         }
     );
 
+// =================================================
+// START SERVER
+// =================================================
 
-    // =================================================
-    // START SERVER
-    // =================================================
+cout << endl;
+cout << "========================================" << endl;
+cout << "       PERSONAL EXPENSE TRACKER" << endl;
+cout << "========================================" << endl;
 
-    cout << endl;
-    cout << "========================================" << endl;
-    cout << "       PERSONAL EXPENSE TRACKER" << endl;
-    cout << "========================================" << endl;
-    cout << "Database connected successfully." << endl;
-    cout << "Server running at:" << endl;
+cout << "Database connected successfully." << endl;
+cout << "Server running at:" << endl;
 
-    const char* port_env = std::getenv("PORT");
-    int port = port_env ? std::stoi(port_env) : 8080;
+// Railway PORT
+const char* port_env = std::getenv("PORT");
 
-    cout << "Port: " << port << endl;
+int port = port_env
+    ? std::stoi(port_env)
+    : 8080;
 
-    cout << "========================================" << endl;
-    server.set_mount_point("/", ".frontend");
-    server.listen("0.0.0.0", port);
-    // =================================================
-    // CLOSE DATABASE
-    // =================================================
+cout << "Port: " << port << endl;
 
-    sqlite3_close(DB);
+cout << "========================================" << endl;
 
+// Serve frontend
+if (!server.set_mount_point("/", "./frontend"))
+{
+    cerr << "ERROR: Could not mount frontend folder!" << endl;
+    return 1;
+}
+
+// Start server
+server.listen("0.0.0.0", port);
+
+// =================================================
+// CLOSE DATABASE
+// =================================================
+
+sqlite3_close(DB);
+
+return 0;
+    
     return 0;
 }

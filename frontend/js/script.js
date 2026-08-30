@@ -2,12 +2,15 @@
 // PERSONAL EXPENSE TRACKER
 // =====================================================
 
-
 // =====================================================
 // SERVER
 // =====================================================
 
-const SERVER_URL = "http://localhost:8080";
+const SERVER_URL =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:8080"
+        : window.location.origin;
 
 
 // =====================================================
@@ -46,6 +49,9 @@ const expenditureValue =
 
 const balanceValue =
     document.getElementById("balance-amount");
+
+const balanceMessage =
+    document.getElementById("balance-message");
 
 const list =
     document.getElementById("list");
@@ -93,8 +99,26 @@ function updateBalance()
     const balance =
         budget - expenses;
 
+
+    // Update balance amount
     balanceValue.innerText =
         formatMoney(balance);
+
+
+    // Show negative balance warning
+    if (balance < 0)
+    {
+        balanceMessage.innerText =
+            "⚠️ Your balance is negative! You have exceeded your budget.";
+
+        balanceMessage.classList.remove("hide");
+    }
+    else
+    {
+        balanceMessage.innerText = "";
+
+        balanceMessage.classList.add("hide");
+    }
 }
 
 
@@ -175,10 +199,6 @@ totalAmountButton.addEventListener(
                 );
 
 
-            // -----------------------------------------
-            // READ SERVER RESPONSE
-            // -----------------------------------------
-
             const responseText =
                 await response.text();
 
@@ -229,12 +249,6 @@ totalAmountButton.addEventListener(
             );
 
 
-            console.log(
-                "Current Budget ID:",
-                currentBudgetId
-            );
-
-
             // -----------------------------------------
             // UPDATE SUMMARY
             // -----------------------------------------
@@ -249,24 +263,28 @@ totalAmountButton.addEventListener(
                 formatMoney(budget);
 
 
+            // Clear negative message
+            balanceMessage.innerText = "";
+
+            balanceMessage.classList.add("hide");
+
+
             // -----------------------------------------
             // CLEAR CURRENT EXPENSE LIST
             // -----------------------------------------
 
-            list.innerHTML =
-                "";
+            list.innerHTML = "";
 
 
             // -----------------------------------------
             // CLEAR INPUT
             // -----------------------------------------
 
-            totalAmount.value =
-                "";
+            totalAmount.value = "";
 
 
             // -----------------------------------------
-            // RELOAD HISTORY
+            // RELOAD DATA
             // -----------------------------------------
 
             await loadBudgetHistory();
@@ -372,22 +390,15 @@ function listCreator(
         '<i class="fa-solid fa-trash"></i>';
 
 
-    item.appendChild(
-        editButton
-    );
+    item.appendChild(editButton);
 
-    item.appendChild(
-        deleteButton
-    );
+    item.appendChild(deleteButton);
 
-
-    list.appendChild(
-        item
-    );
+    list.appendChild(item);
 
 
     // ---------------------------------------------
-    // EDIT
+    // EDIT EXPENSE
     // ---------------------------------------------
 
     editButton.addEventListener(
@@ -409,7 +420,7 @@ function listCreator(
 
 
     // ---------------------------------------------
-    // DELETE
+    // DELETE EXPENSE FROM CURRENT LIST
     // ---------------------------------------------
 
     deleteButton.addEventListener(
@@ -442,8 +453,7 @@ function listCreator(
             const newExpenses =
                 Math.max(
                     0,
-                    currentExpenses -
-                    deletedAmount
+                    currentExpenses - deletedAmount
                 );
 
 
@@ -609,15 +619,13 @@ addButton.addEventListener(
             // CLEAR INPUTS
             // -----------------------------------------
 
-            productTitle.value =
-                "";
+            productTitle.value = "";
 
-            userAmount.value =
-                "";
+            userAmount.value = "";
 
 
             // -----------------------------------------
-            // RELOAD CURRENT EXPENSES
+            // RELOAD EXPENSES
             // -----------------------------------------
 
             await loadExpenses();
@@ -685,17 +693,17 @@ async function loadCurrentBudget()
 
         if (!data.trim())
         {
-            currentBudgetId =
-                null;
+            currentBudgetId = null;
 
-            amount.innerText =
-                "0";
+            amount.innerText = "0";
 
-            expenditureValue.innerText =
-                "0";
+            expenditureValue.innerText = "0";
 
-            balanceValue.innerText =
-                "0";
+            balanceValue.innerText = "0";
+
+            balanceMessage.innerText = "";
+
+            balanceMessage.classList.add("hide");
 
             return;
         }
@@ -774,8 +782,7 @@ async function loadExpenses()
         Number(currentBudgetId) <= 0
     )
     {
-        expenditureValue.innerText =
-            "0";
+        expenditureValue.innerText = "0";
 
         balanceValue.innerText =
             formatMoney(
@@ -784,8 +791,9 @@ async function loadExpenses()
                 ) || 0
             );
 
-        list.innerHTML =
-            "";
+        list.innerHTML = "";
+
+        updateBalance();
 
         return;
     }
@@ -819,12 +827,10 @@ async function loadExpenses()
             await response.text();
 
 
-        list.innerHTML =
-            "";
+        list.innerHTML = "";
 
 
-        let totalExpenses =
-            0;
+        let totalExpenses = 0;
 
 
         if (data.trim())
@@ -893,10 +899,8 @@ async function loadExpenses()
         );
     }
 }
-
-
 // =====================================================
-// LOAD BUDGET HISTORY
+// LOAD LAST 5 BUDGET HISTORY
 // =====================================================
 
 async function loadBudgetHistory()
@@ -906,15 +910,12 @@ async function loadBudgetHistory()
         return;
     }
 
-
     try
     {
         const response =
             await fetch(
-                SERVER_URL +
-                "/budgets"
+                SERVER_URL + "/budgets"
             );
-
 
         if (!response.ok)
         {
@@ -923,14 +924,14 @@ async function loadBudgetHistory()
             );
         }
 
-
         const data =
             await response.text();
 
+        budgetHistory.innerHTML = "";
 
-        budgetHistory.innerHTML =
-            "";
-
+        // ---------------------------------------------
+        // NO BUDGET HISTORY
+        // ---------------------------------------------
 
         if (!data.trim())
         {
@@ -940,17 +941,25 @@ async function loadBudgetHistory()
             return;
         }
 
+        // ---------------------------------------------
+        // GET ALL BUDGET RECORDS
+        // ---------------------------------------------
 
         const rows =
             data.trim().split("\n");
 
+        // ---------------------------------------------
+        // SHOW ONLY LAST 5 BUDGETS
+        // ---------------------------------------------
 
-        rows.forEach(
+        const lastFiveBudgets =
+            rows.slice(-5).reverse();
+
+        lastFiveBudgets.forEach(
             function(row)
             {
                 const parts =
                     row.split(" | ");
-
 
                 if (parts.length >= 3)
                 {
@@ -960,20 +969,12 @@ async function loadBudgetHistory()
                     const budgetDate =
                         parts[2];
 
-
                     const item =
-                        document.createElement(
-                            "div"
-                        );
-
+                        document.createElement("div");
 
                     item.classList.add(
                         "budget-history-item"
                     );
-
-
-                    // IMPORTANT:
-                    // Backticks are required here.
 
                     item.innerHTML = `
                         <span>
@@ -985,17 +986,13 @@ async function loadBudgetHistory()
                         </span>
                     `;
 
-
-                    budgetHistory.appendChild(
-                        item
-                    );
+                    budgetHistory.appendChild(item);
                 }
             }
         );
 
-
         console.log(
-            "Budget history loaded."
+            "Last 5 budget history loaded."
         );
     }
     catch (error)
@@ -1004,7 +1001,6 @@ async function loadBudgetHistory()
             "BUDGET HISTORY ERROR:",
             error
         );
-
 
         budgetHistory.innerHTML =
             "<p>Could not load budget history.</p>";
@@ -1068,8 +1064,7 @@ async function loadExpenseHistory()
             await response.text();
 
 
-        expenseHistory.innerHTML =
-            "";
+        expenseHistory.innerHTML = "";
 
 
         if (!data.trim())
@@ -1085,8 +1080,7 @@ async function loadExpenseHistory()
             data.trim().split("\n");
 
 
-        let hasExpenses =
-            false;
+        let hasExpenses = false;
 
 
         rows.forEach(
@@ -1098,8 +1092,7 @@ async function loadExpenseHistory()
 
                 if (parts.length >= 7)
                 {
-                    hasExpenses =
-                        true;
+                    hasExpenses = true;
 
 
                     const expenseName =
