@@ -821,6 +821,12 @@ if (!server.set_mount_point("/", "./frontend"))
 
 // Start server
 server.listen("0.0.0.0", port);
+if (!server.listen("0.0.0.0", port))
+{
+    cerr << "ERROR: Server failed to start on port "
+         << port << endl;
+    return 1;
+}
 
 // =================================================
 // CLOSE DATABASE
