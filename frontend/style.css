@@ -495,58 +495,96 @@ h4 {
     margin-bottom: 20px;
 }
 /* =========================================
-   MOBILE RESPONSIVE FIX
+   MOBILE RESPONSIVE
 ========================================= */
 
 @media screen and (max-width: 768px) {
 
+    * {
+        box-sizing: border-box;
+    }
+
     html,
     body {
         width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
         overflow-x: hidden;
     }
 
-    /* Sidebar */
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
+    body {
+        min-width: 0;
     }
 
-    /* Main wrapper */
+    /* ---------- SIDEBAR ---------- */
+
+    .sidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+
+    /* ---------- MAIN AREA ---------- */
+
     .wrapper {
         width: 100%;
         max-width: 100%;
-        margin-left: 0;
+        margin: 0;
         padding: 15px;
     }
 
-    /* Main containers */
+    main,
+    section {
+        max-width: 100%;
+    }
+
+    /* ---------- CONTAINERS ---------- */
+
     .container,
-    .sub-container {
+    .sub-container,
+    .history-box,
+    .expense-history-box,
+    .budget-history-container,
+    .list {
         width: 100%;
         max-width: 100%;
         margin-left: 0;
         margin-right: 0;
     }
 
-    /* Expense + Budget */
+    /* ---------- BUDGET + EXPENSE ---------- */
+
     .two-column-section {
-        display: grid;
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         width: 100%;
+        max-width: 100%;
         gap: 15px;
     }
 
-    /* Summary */
-    .output-container {
+    .two-column-section > * {
         width: 100%;
         max-width: 100%;
-        grid-template-columns: 1fr;
+        min-width: 0;
+    }
+
+    /* ---------- SUMMARY ---------- */
+
+    .output-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
     }
 
     .summary-box {
         width: 100%;
+        max-width: 100%;
         border-right: none;
         border-bottom: 1px solid #ddd;
     }
@@ -555,70 +593,156 @@ h4 {
         border-bottom: none;
     }
 
-    /* History boxes */
-    .history-box,
-    .expense-history-box,
-    .budget-history-container,
-    .list {
+    /* ---------- INPUTS ---------- */
+
+    .container input,
+    .container select,
+    .container button,
+    #payment-method {
         width: 100%;
         max-width: 100%;
+        box-sizing: border-box;
     }
 
-    /* Expense rows */
+    /* ---------- EXPENSE HISTORY ---------- */
+
     .sublist-content {
+        display: flex;
+        align-items: center;
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         gap: 8px;
         padding: 10px 8px;
     }
 
     .sublist-content .product {
-        min-width: 0;
         flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .sublist-content .amount {
-        width: 70px;
+        width: auto;
+        min-width: 55px;
+        max-width: 75px;
         flex-shrink: 0;
         font-size: 14px;
+        text-align: right;
     }
 
     .sublist-content .edit,
     .sublist-content .delete {
         width: 30px;
+        min-width: 30px;
         height: 30px;
-        margin-left: 0;
         flex-shrink: 0;
+        margin: 0;
     }
 
-    /* Budget history */
+    /* ---------- BUDGET HISTORY ---------- */
+
     .budget-history-item {
+        display: flex;
+        align-items: center;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         gap: 8px;
         padding: 10px;
     }
 
-    .budget-history-item span:first-child {
+    .budget-history-item span {
         min-width: 0;
     }
 
+    .budget-history-item span:first-child {
+        flex: 1;
+    }
+
     .budget-history-item span:last-child {
+        flex-shrink: 0;
         font-size: 12px;
     }
 
-    /* Inputs */
-    .container input,
-    #payment-method {
+    /* ---------- HEADINGS ---------- */
+
+    h4 {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    /* ---------- TABLE / LONG CONTENT ---------- */
+
+    table {
         width: 100%;
         max-width: 100%;
     }
 
-    /* Heading */
+    img,
+    video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media screen and (max-width: 480px) {
+
+    .wrapper {
+        padding: 10px;
+    }
+
+    .container,
+    .sub-container {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
     h4 {
-        width: 100%;
-        margin-left: 0;
-        text-align: center;
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .sublist-content {
+        gap: 5px;
+        padding: 8px 5px;
+    }
+
+    .sublist-content .amount {
+        font-size: 13px;
+        min-width: 50px;
+    }
+
+    .sublist-content .edit,
+    .sublist-content .delete {
+        width: 28px;
+        min-width: 28px;
+        height: 28px;
+    }
+
+    .budget-history-item {
+        padding: 8px 6px;
     }
 }
 /* =========================================
