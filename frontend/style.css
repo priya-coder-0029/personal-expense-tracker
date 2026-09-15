@@ -506,8 +506,8 @@ h4 {
 
     html,
     body {
-        width: 100%;
-        max-width: 100%;
+        width: 80%;
+        max-width: 80%;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
@@ -531,8 +531,8 @@ h4 {
     /* ---------- MAIN AREA ---------- */
 
     .wrapper {
-        width: 100%;
-        max-width: 100%;
+        width: 80%;
+        max-width: 80%;
         margin: 0;
         padding: 15px;
     }
